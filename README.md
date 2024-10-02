@@ -46,6 +46,7 @@ notionSync({
   // based on the Pull Request lifecycle.
   prStatusMap: {
     open: "In progress",
+    draft: "In progress",
     closed: "Done",
     merged: "Done",
     locked: "Done",

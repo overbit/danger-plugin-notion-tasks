@@ -8,7 +8,7 @@ export declare function warn(message: string): void;
 export declare function fail(message: string): void;
 export declare function markdown(message: string): void;
 
-type PRStatusMap = Record<__dm.GitHubPRDSL["state"], string>;
+type PRStatusMap = Record<__dm.GitHubPRDSL["state"] | "draft", string>;
 
 type NotionTaskInfo = {
   title: string;
@@ -94,9 +94,10 @@ export const parseTaskIdFromUrl = (url: string): string | null =>
  */
 const generateTaskStatus = (
   prStatusMap: PRStatusMap,
-  prStatus: __dm.GitHubPRDSL["state"]
+  prStatus: __dm.GitHubPRDSL["state"],
+  isDraft: __dm.GitHubPRDSL["draft"]
 ): string => {
-  return prStatusMap[prStatus];
+  return prStatusMap[isDraft? "draft" : prStatus];
 };
 
 /**
@@ -110,12 +111,13 @@ const updateNotionTask = (
   prStatusMap: PRStatusMap,
   pr: {
     status: __dm.GitHubPRDSL["state"];
+    isDraft: __dm.GitHubPRDSL["draft"];
     url: string;
   }
 ) => {
   console.log("Updating Notion task", taskId);
 
-  const taskStatus = generateTaskStatus(prStatusMap, pr.status);
+  const taskStatus = generateTaskStatus(prStatusMap, pr.status, pr.isDraft);
 
   return notion.pages.update({
     page_id: taskId,
@@ -142,6 +144,7 @@ const notionTasks = async (config: NotionSyncConfig) => {
   const prNumber = danger.github.pr.number;
   const prDescription = danger.github.pr.body;
   const prStatus = danger.github.pr.state;
+  const prDraft = danger.github.pr.draft;
   const prUrl = `https://github.com/${repoOwner}/${repoName}/pull/${prNumber}`;
 
   // Initialize the Notion client.
@@ -179,6 +182,7 @@ const notionTasks = async (config: NotionSyncConfig) => {
       // a possible error to STDOUT.
       updateNotionTask(notion, taskId, prStatusMap, {
         status: prStatus,
+        isDraft: prDraft,
         url: prUrl,
       })
         .then((res) => {
