@@ -1,22 +1,22 @@
 {
-  "name": "@heritageholdings/danger-plugin-notion-tasks",
+  "name": "@overbit/danger-plugin-notion-tasks",
   "description": "Manage your Notion's pages inside GitHub",
-  "author": "Diego Pasquali",
+  "author": "Daniele Iasella",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/heritageholdings/danger-plugin-notion-tasks.git"
+    "url": "https://github.com/overbit/danger-plugin-notion-tasks.git"
   },
   "bugs": {
-    "url": "https://github.com/heritageholdings/danger-plugin-notion-tasks/issues"
+    "url": "https://github.com/overbit/danger-plugin-notion-tasks/issues"
   },
-  "homepage": "https://github.com/heritageholdings/danger-plugin-notion-tasks",
+  "homepage": "https://github.com/overbit/danger-plugin-notion-tasks",
   "keywords": [
     "danger",
     "danger-plugin",
     "notion"
   ],
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
